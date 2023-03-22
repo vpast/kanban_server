@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 // const { schemaOptions } = require('./modelOptions');
 
 const checkSchema = new mongoose.Schema({
-  name: {
+  email: {
     type: String,
     required: true,
   },
-  state: {
-    type: Number,
+  password: {
+    type: String,
     required: true,
   },
 });
