@@ -1,11 +1,12 @@
 var express = require('express');
 const checkController = require('../controllers/check');
+const userController = require('../controllers/user')
 
 var router = express.Router();
 
 /* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
+var check = router.get('/', checkController.getCheck);
 
-module.exports = router.get('/', checkController.getCheck);
+var user = router.get('/', userController.registeredUser);
+
+module.exports = check, user 

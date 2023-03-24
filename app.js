@@ -5,6 +5,7 @@ var logger = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const checkModel = require('./src/v1/models/check')
+const userModel = require('./src/v1/models/user')
 
 var app = express();
 
@@ -25,9 +26,9 @@ app.use(bodyParser.json());
 
 app.use('/check', require('./src/v1/routes'));
 
-app.post('/check', async (req, res) => {
+app.post('/users', async (req, res) => {
   console.log(req.body);
-  checkModel.create(req.body);
+  userModel.create(req.body);
 });
 
 module.exports = app;
