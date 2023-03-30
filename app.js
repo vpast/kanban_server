@@ -27,8 +27,8 @@ app.use(bodyParser.json());
 app.use('/check', require('./src/v1/routes'));
 
 app.post('/users', async (req, res) => {
-  console.log(req.body);
   userModel.create(req.body);
+  console.log(req.body);
 });
 
 module.exports = app;
