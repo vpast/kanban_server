@@ -5,7 +5,7 @@ var logger = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const checkModel = require('./src/v1/models/check')
-const userModel = require('./src/v1/models/user')
+const userModel = require('./src/v1/models/users')
 
 var app = express();
 
@@ -23,8 +23,8 @@ app.use(
 );
 app.use(bodyParser.json());
 
-
 app.use('/check', require('./src/v1/routes'));
+app.use('/users', require('./src/v1/routes/users'));
 
 app.post('/users', async (req, res) => {
   userModel.create(req.body);
