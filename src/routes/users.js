@@ -11,10 +11,12 @@ router.use(
 router.use(bodyParser.json());
 
 
-router.post('/', async (req, res) => {
+router.post('/register', async (req, res) => {
   userModel.create(req.body);
   console.log(req.body);
 });
+
+router.post('/login', userController.login)
 
 router.get('/', userController.registeredUser)
 
