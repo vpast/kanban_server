@@ -18,6 +18,6 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', userController.login)
 
-router.get('/', userController.registeredUser)
+router.get('/', userController.register)
 
 module.exports = router
