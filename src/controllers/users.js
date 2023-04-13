@@ -5,8 +5,15 @@ const userModel = require('../models/users');
 // const jsonwebtoken = require('jsonwebtoken')
 
 const register = async (req, res) => {
+  const { email } = req.body;
   try {
-    if (req.body != undefined) {
+    let user = await User.findOne({ email }).select('email');
+    if (user) {
+      if (email === user.email) {
+        res.status(400).send('Email already taken');
+        console.log('Email already taken');
+      }
+    } else if (req.body != undefined) {
       userModel.create(req.body);
       console.log(req.body);
       res.status(201).send('Registered!');
