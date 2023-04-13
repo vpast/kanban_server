@@ -1,18 +1,10 @@
-const User = require('../models/users');
 var bcrypt = require('bcryptjs');
 const userModel = require('../models/users');
 // const CryptoJS = require('crypto-js')
 // const jsonwebtoken = require('jsonwebtoken')
 
 const register = async (req, res) => {
-  // User.find()
-  // .then(result => {
-  //   console.log('result: ', result)
-  //   res.send(result.length > 0 ? result: 'No results');
-  // })
-  // .catch(err =>{
-  //   console.log(err)
-  // })
+
   try {
     if (req.body != undefined) {
       userModel.create(req.body);
