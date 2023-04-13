@@ -17,8 +17,6 @@ const register = async (req, res) => {
       userModel.create(req.body);
       console.log(req.body);
       res.status(201).send('Registered!');
-    } else {
-      return;
     }
   } catch (err) {
     res.status(500).json(err);
