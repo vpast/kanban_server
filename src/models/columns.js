@@ -12,6 +12,10 @@ const columnsSchema = new mongoose.Schema({
   tasksIds: {
     type: Array,
     require: true
+  },
+  index: {
+    type: Number,
+    require: true
   }
 });
 
