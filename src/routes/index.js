@@ -13,5 +13,7 @@ var tasks = router.get('/tasks', tasksController.getTasks)
 var columns = router.get('/columns', columnsController.getColumns)
 router.use('/users', require('./users'));
 
+router.post('/tasks', tasksController.addTask);
+
 // module.exports = check, router
 module.exports = router, tasks, columns

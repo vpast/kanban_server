@@ -9,8 +9,8 @@ const columnsSchema = new mongoose.Schema({
     type: String,
     require: true
   },
-  tasksIds: {
-    type: Array,
+  taskIds: {
+    type: [String],
     require: true
   },
   index: {
