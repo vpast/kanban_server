@@ -38,4 +38,26 @@ const updateColumnTaskIds = async (columnId, taskId) => {
   }
 };
 
-module.exports = { getColumns, updateColumnTaskIds };
+const updateColumnTitle = async (req, res) => {
+  const {id, title} = req.body;
+
+  try {
+    let column = await Columns.findOne({ id });
+    
+    if (!column) {
+      throw new Error('Column not found');
+    }
+
+    column.title = title;
+    await column.save();
+
+    console.log('After update - column:', column);
+    
+    res.status(200).json(column);
+  } catch (error) {
+    console.error('Error updating column title:', error);
+    res.status(500).json({ error: error.message })
+  }
+};
+
+module.exports = { getColumns, updateColumnTaskIds, updateColumnTitle };
