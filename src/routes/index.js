@@ -12,6 +12,7 @@ router.use('/users', require('./users'));
 router.post('/tasks', tasksController.addTask);
 router.delete('/tasks/:taskId', tasksController.deleteTask);
 router.post('/columns', columnsController.addColumn);
+router.delete('/columns/:columnId', columnsController.deleteColumn);
 router.post('/updateColumnTitle', columnsController.updateColumnTitle);
 
 module.exports = router

@@ -3,19 +3,19 @@ const mongoose = require('mongoose')
 const columnsSchema = new mongoose.Schema({
   id: {
     type: String,
-    require: true
+    required: true
   },
   title: {
     type: String,
-    require: true
+    required: true
   },
   taskIds: {
     type: [String],
-    require: true
+    required: true
   },
   index: {
     type: Number,
-    require: false
+    required: false
   }
 });
 
