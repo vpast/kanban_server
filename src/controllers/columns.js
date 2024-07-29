@@ -29,7 +29,7 @@ const addColumn = async (req, res) => {
   }
 }
 
-const updateColumnTaskIds = async (columnId, taskId) => {
+const updateColumnTaskIds = async (columnId, taskId, action) => {
   try {
     let column = await Columns.findOne({ id: columnId });
 
@@ -37,9 +37,15 @@ const updateColumnTaskIds = async (columnId, taskId) => {
       throw new Error('Column not found');
     }
 
-    column.taskIds.push(taskId);
-    await column.save();
+    if (action === 'add') {
+      column.taskIds.push(taskId);
+
+    } else if (action === 'delete') {
+      column.taskIds = column.taskIds.filter(id => id !== taskId);
+    }
+
     
+    await column.save();
     return column;
   } catch (error) {
     console.error('Error updating column taskIds:', error);

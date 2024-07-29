@@ -14,4 +14,6 @@ router.post('/tasks', (req, res) => {
     res.status(201).json({ message: 'Task added successfully', task });
 });
 
+router.delete('/tasks/:taskId', tasksController.deleteTask);
+
 module.exports = router;
