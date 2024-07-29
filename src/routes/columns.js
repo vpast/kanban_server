@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { updateColumnTitle } = require('../controllers/columns');
+const { updateColumnTitle, addColumn } = require('../controllers/columns');
+
+router.post('/column', addColumn)
 
 router.post('/updateColumnTitle', async (req, res) => {
   const { columnId, columnTitle } = req.body;

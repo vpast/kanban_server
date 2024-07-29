@@ -15,8 +15,8 @@ const columnsSchema = new mongoose.Schema({
   },
   index: {
     type: Number,
-    require: true
+    require: false
   }
 });
 
-module.exports = mongoose.model('columns', columnsSchema, 'columns')
+module.exports = mongoose.model('Columns', columnsSchema, 'columns')

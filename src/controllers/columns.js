@@ -6,30 +6,39 @@ const getColumns = async (req, res) => {
     let columns = await Columns.find();
     if (columns) {
       res.status(200).json(columns);
-      // console.log(columns)
     }
   } catch (err) {
     res.status(404).json(err);
   }
 };
 
+const addColumn = async (req, res) => {
+  const { column } = req.body;
+
+  if (!column) {
+    return res.status(400).json({ error: 'Column are required' })
+  }
+
+  try {
+    const newColumn = new Columns(column);
+    await newColumn.save();
+
+    res.status(200).json({ message: 'List added successfully', column: newColumn });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to add list' });
+  }
+}
+
 const updateColumnTaskIds = async (columnId, taskId) => {
   try {
-    // Находим колонку по её ID
     let column = await Columns.findOne({ id: columnId });
 
     if (!column) {
       throw new Error('Column not found');
     }
 
-    console.log('Before update - column:', column);
-
-    // Добавляем новый ID задачи в массив taskIds и сохраняем изменения
     column.taskIds.push(taskId);
     await column.save();
-
-    console.log('After update - column:', column);
-
     
     return column;
   } catch (error) {
@@ -50,14 +59,11 @@ const updateColumnTitle = async (req, res) => {
 
     column.title = title;
     await column.save();
-
-    console.log('After update - column:', column);
     
     res.status(200).json(column);
   } catch (error) {
-    console.error('Error updating column title:', error);
     res.status(500).json({ error: error.message })
   }
 };
 
-module.exports = { getColumns, updateColumnTaskIds, updateColumnTitle };
+module.exports = { getColumns, addColumn, updateColumnTaskIds, updateColumnTitle };

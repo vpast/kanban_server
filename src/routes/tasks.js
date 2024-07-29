@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-// Пример базы данных (вместо реальной базы данных)
 const tasks = [];
 
-// Маршрут для добавления новой задачи
 router.post('/tasks', (req, res) => {
     const { task, columnId } = req.body;
 
