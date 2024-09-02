@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('../src/routes'));
 
-app.use((req, res) => {
+app.get((req, res) => {
   res.status(200).json({ message: 'Hello from Vercel!' });
 });
 
