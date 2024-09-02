@@ -14,9 +14,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', require('../src/routes'));
+// app.use('/', require('../src/routes'));
 
-app.get((req, res) => {
+app.use('/', (req, res) => {
   res.status(200).json({ message: 'Hello from Vercel!' });
 });
 
