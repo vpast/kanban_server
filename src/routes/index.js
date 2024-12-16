@@ -14,5 +14,6 @@ router.delete('/tasks/:taskId', tasksController.deleteTask);
 router.post('/columns', columnsController.addColumn);
 router.delete('/columns/:columnId', columnsController.deleteColumn);
 router.post('/updateColumnTitle', columnsController.updateColumnTitle);
+router.put('/columns/:columnId', columnsController.updateColumn);
 
 module.exports = router

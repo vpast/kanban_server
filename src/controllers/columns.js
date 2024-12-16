@@ -99,10 +99,34 @@ const updateColumnTitle = async (req, res) => {
   }
 };
 
+const updateColumn = async (columnId, updatedData) => {
+  console.log('Updating column with ID:', columnId);
+  console.log('Updated data:', updatedData);
+  try {
+    // Найдем колонку по ID
+    const column = await Columns.findOne({ id: columnId });
+    console.log('Found column:', column);
+    if (!column) {
+      throw new Error('Column not found');
+    }
+
+    // Обновляем поля колонки
+    Object.assign(column, updatedData);
+    await column.save();
+
+    return column;
+  } catch (error) {
+    console.error('Error updating column:', error.stack);
+    throw error;
+  }
+};
+
+
 module.exports = {
   getColumns,
   addColumn,
   deleteColumn,
   updateColumnTaskIds,
   updateColumnTitle,
+  updateColumn
 };
