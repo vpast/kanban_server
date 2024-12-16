@@ -1,4 +1,3 @@
-const express = require('express');
 const Columns = require('../models/columns');
 const Tasks = require('../models/tasks');
 
@@ -100,19 +99,25 @@ const updateColumnTitle = async (req, res) => {
 };
 
 const updateColumn = async (columnId, updatedData) => {
-  console.log('Updating column with ID:', columnId);
-  console.log('Updated data:', updatedData);
   try {
-    // Найдем колонку по ID
-    const column = await Columns.findOne({ id: columnId });
-    console.log('Found column:', column);
+    if (!updatedData || typeof updatedData !== 'object') {
+      throw new Error('Invalid updatedData');
+    }
+    
+    const allowedFields = ['taskIds'];
+    const filteredData = Object.fromEntries(
+      Object.entries(updatedData.column).filter(([key]) => allowedFields.includes(key))
+    );
+
+    const column = await Columns.findOneAndUpdate(
+      { id: columnId },
+      { $set: filteredData },
+      { new: true }
+    );
+
     if (!column) {
       throw new Error('Column not found');
     }
-
-    // Обновляем поля колонки
-    Object.assign(column, updatedData);
-    await column.save();
 
     return column;
   } catch (error) {
@@ -121,12 +126,11 @@ const updateColumn = async (columnId, updatedData) => {
   }
 };
 
-
 module.exports = {
   getColumns,
   addColumn,
   deleteColumn,
   updateColumnTaskIds,
   updateColumnTitle,
-  updateColumn
+  updateColumn,
 };

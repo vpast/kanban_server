@@ -1,19 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const tasksController = require('../controllers/tasks');
 
-const tasks = [];
+router.get('/', tasksController.getTasks);
+router.post('/', tasksController.addTask);
+router.delete('/:taskId', tasksController.deleteTask);
 
-router.post('/tasks', (req, res) => {
-    const { task, columnId } = req.body;
-
-    if (!task || !columnId) {
-        return res.status(400).json({ error: 'Task and columnId are required' });
-    }
-
-    tasks.push(task);
-    res.status(201).json({ message: 'Task added successfully', task });
-});
-
-router.delete('/tasks/:taskId', tasksController.deleteTask);
 
 module.exports = router;

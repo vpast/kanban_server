@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { updateColumnTitle, addColumn, deleteColumn, updateColumn } = require('../controllers/columns');
+const { getColumns, updateColumnTitle, addColumn, deleteColumn, updateColumn } = require('../controllers/columns');
 
+router.get('/', getColumns);
 router.post('/column', addColumn)
-router.delete('/columns/:columnId', deleteColumn);
+router.delete('/:columnId', deleteColumn);
 router.post('/updateColumnTitle', async (req, res) => {
   const { columnId: id, columnTitle: title } = req.body;
 
@@ -19,10 +20,7 @@ router.post('/updateColumnTitle', async (req, res) => {
   }
 });
 
-router.put('/columns/:columnId', async (req, res) => {
-  // console.log('Received PUT request');
-  // console.log('PUT request received for columnId:', req.params.columnId);
-  // console.log('Updated data:', req.body); // Логирование тела запроса
+router.put('/:columnId', async (req, res) => {
   const { columnId } = req.params;
   const updatedData = req.body;
 
