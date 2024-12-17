@@ -67,7 +67,7 @@ const updateColumnTaskIds = async (columnId, taskId, action) => {
 
     if (action === 'add') {
       column.taskIds.push(taskId);
-    } else if (action === 'delete') {
+    } else if (action === 'remove') {
       column.taskIds = column.taskIds.filter((id) => id !== taskId);
     }
 
@@ -79,22 +79,24 @@ const updateColumnTaskIds = async (columnId, taskId, action) => {
   }
 };
 
-const updateColumnTitle = async (req, res) => {
-  const { id, title } = req.body;
-
+const updateColumnTitle = async (columnId, columnTitle) => {
   try {
-    let column = await Columns.findOne({ id });
+    const column = await Columns.findOneAndUpdate(
+      { id: columnId },
+      { $set: { title: columnTitle } },
+      { new: true }
+    );
 
     if (!column) {
       throw new Error('Column not found');
     }
 
-    column.title = title;
-    await column.save();
-
-    res.status(200).json(column);
+    return column;
+    // res.status(200).json(column);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    // res.status(500).json({ error: error.message });
+    console.error('Error updating column:', error.stack);
+    throw error;
   }
 };
 
@@ -103,10 +105,12 @@ const updateColumn = async (columnId, updatedData) => {
     if (!updatedData || typeof updatedData !== 'object') {
       throw new Error('Invalid updatedData');
     }
-    
+
     const allowedFields = ['taskIds'];
     const filteredData = Object.fromEntries(
-      Object.entries(updatedData.column).filter(([key]) => allowedFields.includes(key))
+      Object.entries(updatedData.column).filter(([key]) =>
+        allowedFields.includes(key)
+      )
     );
 
     const column = await Columns.findOneAndUpdate(

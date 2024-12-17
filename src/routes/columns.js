@@ -5,15 +5,18 @@ const { getColumns, updateColumnTitle, addColumn, deleteColumn, updateColumn } =
 router.get('/', getColumns);
 router.post('/column', addColumn)
 router.delete('/:columnId', deleteColumn);
-router.post('/updateColumnTitle', async (req, res) => {
-  const { columnId: id, columnTitle: title } = req.body;
+router.put('/updateColumnTitle', async (req, res) => {
+  const { id: columnId, title: columnTitle } = req.body;
 
-  if (!id || !title) {
+  if (!columnId || !columnTitle) {
     return res.status(400).json({ error: 'columnId and columnTitle are required' });
   }
 
   try {
-    const updatedColumn = await updateColumnTitle(id, title);
+    const updatedColumn = await updateColumnTitle(columnId, columnTitle);
+    // if (!updatedColumn) {
+    //   return res.status(404).json({ error: 'Data error' });
+    // }
     res.status(200).json(updatedColumn);
   } catch (error) {
     res.status(500).json({ error: error.message });
