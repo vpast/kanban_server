@@ -92,9 +92,7 @@ const updateColumnTitle = async (columnId, columnTitle) => {
     }
 
     return column;
-    // res.status(200).json(column);
   } catch (error) {
-    // res.status(500).json({ error: error.message });
     console.error('Error updating column:', error.stack);
     throw error;
   }

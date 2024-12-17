@@ -14,9 +14,9 @@ router.put('/updateColumnTitle', async (req, res) => {
 
   try {
     const updatedColumn = await updateColumnTitle(columnId, columnTitle);
-    // if (!updatedColumn) {
-    //   return res.status(404).json({ error: 'Data error' });
-    // }
+    if (!updatedColumn) {
+      return res.status(404).json({ error: 'Data error' });
+    }
     res.status(200).json(updatedColumn);
   } catch (error) {
     res.status(500).json({ error: error.message });
