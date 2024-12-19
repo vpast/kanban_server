@@ -1,4 +1,5 @@
 const Columns = require('../models/columns');
+const ColumnOrder = require('../models/columnOrder');
 const Tasks = require('../models/tasks');
 
 const getColumns = async (req, res) => {
@@ -11,6 +12,31 @@ const getColumns = async (req, res) => {
     res.status(404).json(err);
   }
 };
+
+const getColumnOrder = async (req, res) => {
+  try {
+    let columnOrder = await ColumnOrder.find();
+    if (columnOrder) {
+      res.status(200).json(columnOrder);
+    }
+  } catch (err) {
+    res.status(404).json(err);
+  }
+};
+
+const updateColumnOrder = async (columnOrder) => {
+
+  try {
+    const columnOrderUpdated = await ColumnOrder.findOneAndUpdate(
+      {},
+      { $set: { columnOrder: columnOrder } },
+      { new: true }
+    );
+    return columnOrderUpdated;
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 const addColumn = async (req, res) => {
   const { column } = req.body;
@@ -130,6 +156,8 @@ const updateColumn = async (columnId, updatedData) => {
 
 module.exports = {
   getColumns,
+  getColumnOrder,
+  updateColumnOrder,
   addColumn,
   deleteColumn,
   updateColumnTaskIds,
