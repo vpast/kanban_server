@@ -1,7 +1,6 @@
 const { Schema, model, Types } = require('mongoose');
-const mongoose = require('mongoose')
 
-const boardsSchema = new mongoose.Schema({
+const boardsSchema = new Schema({
   columns: [{
     type: Types.ObjectId,
     ref: 'columns'
@@ -16,4 +15,4 @@ const boardsSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Board', boardsSchema, 'boards')
+module.exports = model('Board', boardsSchema, 'boards')
