@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const {
   getColumns,
-  getColumnOrder,
-  updateColumnOrder,
   updateColumnTitle,
   addColumn,
   deleteColumn,
@@ -11,7 +9,6 @@ const {
 } = require('../controllers/columns');
 
 router.get('/', getColumns);
-router.get('/order/columnOrder', getColumnOrder);
 router.post('/column', addColumn);
 router.delete('/:columnId', deleteColumn);
 router.put('/updateColumnTitle', async (req, res) => {
@@ -34,8 +31,6 @@ router.put('/updateColumnTitle', async (req, res) => {
   }
 });
 
-
-
 router.put('/:columnId', async (req, res) => {
   const { columnId } = req.params;
   const updatedData = req.body;
@@ -46,20 +41,6 @@ router.put('/:columnId', async (req, res) => {
       return res.status(404).json({ error: 'Column not found' });
     }
     res.status(200).json(updatedColumn);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.put('/order/updateColumnOrder', async (req, res) => {
-  const newColumnOrder = req.body;
-
-  try {
-    const updatedColumnOrder = await updateColumnOrder(newColumnOrder);
-    if (!updatedColumnOrder) {
-      return res.status(404).json({ error: 'Data error' });
-    }
-    res.status(200).json(updatedColumnOrder);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
