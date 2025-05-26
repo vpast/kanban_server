@@ -1,5 +1,35 @@
 const Boards = require('../models/boards');
 
+const getBoards = async (req, res) => {
+  try {
+    let boards = await Boards.find();
+    if (boards) {
+      res.status(200).json(boards);
+    }
+  } catch (err) {
+    res.status(404).json(err);
+  }
+};
+
+const addBoard = async (req, res) => {
+  const { board } = req.body;
+
+  if (!board) {
+    return res.status(400).json({ error: 'Board are required' });
+  }
+
+  try {
+    const newBoard = new Boards(board);
+    await newBoard.save();
+
+    res
+      .status(200)
+      .json({ message: 'Board added successfully', board: newBoard });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to add board' });
+  }
+};
+
 const getColumnOrder = async (req, res) => {
   try {
     let board = await Boards.findOne();
@@ -25,6 +55,8 @@ const updateColumnOrder = async (columnOrder) => {
 };
 
 module.exports = {
+  getBoards,
+  addBoard,
   getColumnOrder,
   updateColumnOrder
 }; 

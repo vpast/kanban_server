@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const {
+  getBoards,
+  addBoard,
   getColumnOrder,
   updateColumnOrder,
 } = require('../controllers/boards');
 
+router.get('/', getBoards);
+router.post('/', addBoard);
 router.get('/order/columnOrder', getColumnOrder);
 router.put('/order/updateColumnOrder', async (req, res) => {
   const newColumnOrder = req.body;
