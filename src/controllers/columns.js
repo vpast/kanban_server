@@ -39,7 +39,7 @@ const deleteColumn = async (req, res) => {
   }
 
   try {
-    const column = await Columns.findOne({ id: columnId });
+    const column = await Columns.findOne({ _id: columnId });
     if (!column) {
       return res.status(404).json({ error: 'Column not found' });
     }
@@ -48,7 +48,7 @@ const deleteColumn = async (req, res) => {
       await Tasks.deleteMany({ id: { $in: column.taskIds } });
     }
 
-    await Columns.findOneAndDelete({ id: columnId });
+    await Columns.findOneAndDelete({ _id: columnId });
 
     res.status(200).json({ message: 'Column deleted successfully' });
   } catch (err) {
@@ -59,7 +59,7 @@ const deleteColumn = async (req, res) => {
 
 const updateColumnTaskIds = async (columnId, taskId, action) => {
   try {
-    let column = await Columns.findOne({ id: columnId });
+    let column = await Columns.findOne({ _id: columnId });
 
     if (!column) {
       throw new Error('Column not found');
@@ -82,7 +82,7 @@ const updateColumnTaskIds = async (columnId, taskId, action) => {
 const updateColumnTitle = async (columnId, columnTitle) => {
   try {
     const column = await Columns.findOneAndUpdate(
-      { id: columnId },
+      { _id: columnId },
       { $set: { title: columnTitle } },
       { new: true }
     );
@@ -112,7 +112,7 @@ const updateColumn = async (columnId, updatedData) => {
     );
 
     const column = await Columns.findOneAndUpdate(
-      { id: columnId },
+      { _id: columnId },
       { $set: filteredData },
       { new: true }
     );

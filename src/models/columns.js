@@ -1,10 +1,6 @@
 const { Schema, model, Types } = require('mongoose');
 
 const columnsSchema = new Schema({
-  id: {
-    type: String,
-    required: true
-  },
   title: {
     type: String,
     required: true
