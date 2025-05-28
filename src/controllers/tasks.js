@@ -25,7 +25,7 @@ const addTask = async (req, res) => {
     const newTask = new Tasks(task);
     await newTask.save();
 
-    await updateColumnTaskIds(columnId, newTask.id, 'add');
+    await updateColumnTaskIds(columnId, newTask._id, 'add');
 
     res.status(201).json({ message: 'Task added successfully', task: newTask });
   } catch (err) {
@@ -42,13 +42,12 @@ const deleteTask = async (req, res) => {
   }
 
   try {
-    await Tasks.findOneAndDelete({ id: taskId });
+    await Tasks.findOneAndDelete({ _id: taskId });
     await updateColumnTaskIds(columnId, taskId, 'remove');
     res.status(200).json({ message: 'Task deleted successfuly' });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete task' });
   }
-
 }
 
 module.exports = { getTasks, addTask, deleteTask };
