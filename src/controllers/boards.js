@@ -30,33 +30,33 @@ const addBoard = async (req, res) => {
   }
 };
 
-const getColumnOrder = async (req, res) => {
-  try {
-    let board = await Boards.findOne();
-    if (board) {
-      res.status(200).json([{ columnOrder: board.columnOrder }]);
-    }
-  } catch (err) {
-    res.status(404).json(err);
-  }
-};
+const updateBoard = async (req, res) => {
+  const { id } = req.params;
+  const { columns } = req.body;
 
-const updateColumnOrder = async (columnOrder) => {
+  if (!columns) {
+    return res.status(400).json({ error: 'Columns array is required' });
+  }
+
   try {
-    const boardUpdated = await Boards.findOneAndUpdate(
-      {},
-      { $set: { columnOrder: columnOrder } },
+    const updatedBoard = await Boards.findByIdAndUpdate(
+      id,
+      { $set: { columns } },
       { new: true }
     );
-    return boardUpdated;
+
+    if (!updatedBoard) {
+      return res.status(404).json({ error: 'Board not found' });
+    }
+
+    res.status(200).json(updatedBoard);
   } catch (err) {
-    console.error(err);
+    res.status(500).json({ error: 'Failed to update board' });
   }
 };
 
 module.exports = {
   getBoards,
   addBoard,
-  getColumnOrder,
-  updateColumnOrder
+  updateBoard
 }; 
