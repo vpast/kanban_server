@@ -11,6 +11,20 @@ const getBoards = async (req, res) => {
   }
 };
 
+const getBoard = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const board = await Boards.findById(id);
+    if (!board) {
+      return res.status(404).json({ error: 'Board not found' });
+    }
+    res.status(200).json(board);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to get board' });
+  }
+};
+
 const addBoard = async (req, res) => {
   const { board } = req.body;
 
@@ -57,6 +71,7 @@ const updateBoard = async (req, res) => {
 
 module.exports = {
   getBoards,
+  getBoard,
   addBoard,
   updateBoard
 }; 
