@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 var bcrypt = require('bcryptjs');
 // const { schemaOptions } = require('./modelOptions');
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   email: {
     type: String,
     required: true,
@@ -32,4 +32,4 @@ userSchema.pre('save', function (next) {
   });
 });
 
-module.exports = mongoose.model('users', userSchema, 'users');
+module.exports = model('users', userSchema, 'users');

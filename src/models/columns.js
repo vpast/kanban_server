@@ -1,10 +1,6 @@
-const mongoose = require('mongoose')
+const { Schema, model, Types } = require('mongoose');
 
-const columnsSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true
-  },
+const columnsSchema = new Schema({
   title: {
     type: String,
     required: true
@@ -16,7 +12,11 @@ const columnsSchema = new mongoose.Schema({
   index: {
     type: Number,
     required: false
-  }
+  },
+  boardId: {
+    type: Types.ObjectId,
+    ref: 'boards',
+  },
 });
 
-module.exports = mongoose.model('Columns', columnsSchema, 'columns')
+module.exports = model('Columns', columnsSchema, 'columns')

@@ -1,5 +1,4 @@
 const Columns = require('../models/columns');
-const ColumnOrder = require('../models/columnOrder');
 const Tasks = require('../models/tasks');
 
 const getColumns = async (req, res) => {
@@ -12,31 +11,6 @@ const getColumns = async (req, res) => {
     res.status(404).json(err);
   }
 };
-
-const getColumnOrder = async (req, res) => {
-  try {
-    let columnOrder = await ColumnOrder.find();
-    if (columnOrder) {
-      res.status(200).json(columnOrder);
-    }
-  } catch (err) {
-    res.status(404).json(err);
-  }
-};
-
-const updateColumnOrder = async (columnOrder) => {
-
-  try {
-    const columnOrderUpdated = await ColumnOrder.findOneAndUpdate(
-      {},
-      { $set: { columnOrder: columnOrder } },
-      { new: true }
-    );
-    return columnOrderUpdated;
-  } catch (err) {
-    console.error(err);
-  }
-}
 
 const addColumn = async (req, res) => {
   const { column } = req.body;
@@ -65,7 +39,7 @@ const deleteColumn = async (req, res) => {
   }
 
   try {
-    const column = await Columns.findOne({ id: columnId });
+    const column = await Columns.findOne({ _id: columnId });
     if (!column) {
       return res.status(404).json({ error: 'Column not found' });
     }
@@ -74,7 +48,7 @@ const deleteColumn = async (req, res) => {
       await Tasks.deleteMany({ id: { $in: column.taskIds } });
     }
 
-    await Columns.findOneAndDelete({ id: columnId });
+    await Columns.findOneAndDelete({ _id: columnId });
 
     res.status(200).json({ message: 'Column deleted successfully' });
   } catch (err) {
@@ -85,7 +59,7 @@ const deleteColumn = async (req, res) => {
 
 const updateColumnTaskIds = async (columnId, taskId, action) => {
   try {
-    let column = await Columns.findOne({ id: columnId });
+    let column = await Columns.findOne({ _id: columnId });
 
     if (!column) {
       throw new Error('Column not found');
@@ -108,7 +82,7 @@ const updateColumnTaskIds = async (columnId, taskId, action) => {
 const updateColumnTitle = async (columnId, columnTitle) => {
   try {
     const column = await Columns.findOneAndUpdate(
-      { id: columnId },
+      { _id: columnId },
       { $set: { title: columnTitle } },
       { new: true }
     );
@@ -138,7 +112,7 @@ const updateColumn = async (columnId, updatedData) => {
     );
 
     const column = await Columns.findOneAndUpdate(
-      { id: columnId },
+      { _id: columnId },
       { $set: filteredData },
       { new: true }
     );
@@ -156,8 +130,6 @@ const updateColumn = async (columnId, updatedData) => {
 
 module.exports = {
   getColumns,
-  getColumnOrder,
-  updateColumnOrder,
   addColumn,
   deleteColumn,
   updateColumnTaskIds,
